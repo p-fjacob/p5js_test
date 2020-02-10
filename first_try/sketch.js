@@ -1,12 +1,23 @@
+let sine;
+let freq = 400;
+
 function setup() {
-  // put setup code here
-  createCanvas(720, 480);
-  background(0, 0 , 0);
+  createCanvas(440, 440);
+  // create and start the sine oscillator
+  sine = new p5.SinOsc();
+  sine.start();
 }
 
 function draw() {
-  // put drawing code here
-  ellipse(mouseX, mouseY, 100, 100);
-  color(255, 255, 255);
-  print("Hello p5js");
+  background(0);
+  // Map mouseX value from 20Hz to 440Hz for frequency
+  let hertz = map(mouseX, 0, width, 20.0, 440.0);
+  sine.freq(hertz);
+  //Draw the wave to visualize the frequency of the sound
+  stroke(204);
+  for (let x = 0; x < width; x++) {
+    let angle = map(x, 0, width, 0, TWP_PI * hertz);
+    let sinValue = sin(angle) * 120;
+    line(x, 0, x, height/2 + sinValue);
+  } 
 }
